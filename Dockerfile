@@ -1,6 +1,6 @@
 FROM node:10.17.0-alpine3.10
 
-RUN apk add --no-cache python2 build-base
+RUN apk add --no-cache python2 build-base sqlite3
 
 COPY ./federator /app/federator
 COPY ./abis /app/abis

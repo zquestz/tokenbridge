@@ -18,6 +18,7 @@ if(!config.mainchain || !config.sidechain) {
     process.exit();
 }
 
+
 const mainFederator = new Federator(config, log4js.getLogger('MAIN-FEDERATOR'));
 const sideFederator = new Federator({
     ...config,
@@ -29,9 +30,13 @@ const sideFederator = new Federator({
 let pollingInterval = config.runEvery * 1000 * 60; // Minutes
 let scheduler = new Scheduler(pollingInterval, logger, { run: () => run() });
 
-scheduler.start().catch((err) => {
-    logger.error('Unhandled Error on start()', err);
-});
+
+async function exitHandler() {
+    closeDb();
+    process.exit();
+}
+
+
 
 async function run() {
     try {
@@ -39,13 +44,14 @@ async function run() {
         await sideFederator.run();
     } catch(err) {
         logger.error('Unhandled Error on run()', err);
-        process.exit();
+        exitHandler();
     }
 }
 
-async function exitHandler() {
-    process.exit();
-}
+scheduler.start().catch((err) => {
+    logger.error('Unhandled Error on start()', err);
+    exitHandler();
+});
 
 // catches ctrl+c event
 process.on('SIGINT', exitHandler);

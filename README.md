@@ -50,7 +50,7 @@ See the ['federator'](./federator/README.md) for more information about federati
 
 ### Integration Test
 
-An integration test is prepared for contracts and federators. To properly run integration test, you need check network config in the `truffle-config.js` and `package.json` in `bridge` folder with your test chains' configuration before run `npm run deployIntegrationTest`.
+An integration test is prepared for contracts and federators. To properly run integration test, you need check network config in the `truffle-config.js` and `package.json` in `bridge` folder with your test chains' configuration before run `npm run deployIntegrationTest`. You'll need to have sqlite3 installed.
 
 1. Check `mnemonic.key` in `bridge` 
 1. Check `infura.key` in `bridge`
