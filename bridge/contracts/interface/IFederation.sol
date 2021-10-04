@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 pragma abicoder v2;
 
 interface IFederation {
@@ -33,6 +33,7 @@ interface IFederation {
     @param transactionHash The transaction in which the cross event occurred
     @param logIndex Index of the event in the logs
     @param tokenType Is the type of bridge to be used
+    @param chainId Is chainId to check of the correct chain
   */
   function voteTransaction(
     address originalTokenAddress,
@@ -42,7 +43,8 @@ interface IFederation {
     bytes32 blockHash,
     bytes32 transactionHash,
     uint32 logIndex,
-    TokenType tokenType
+    TokenType tokenType,
+    uint256 chainId
   ) external;
 
   /**
@@ -89,7 +91,8 @@ interface IFederation {
     address receiver,
     uint256 amount,
     bytes32 blockHash,
-    uint32 logIndex
+    uint32 logIndex,
+    uint256 chainId
   );
   event MemberAddition(address indexed member);
   event MemberRemoval(address indexed member);
@@ -105,7 +108,8 @@ interface IFederation {
     address receiver,
     uint256 amount,
     bytes32 blockHash,
-    uint32 logIndex
+    uint32 logIndex,
+    uint256 chainId
   );
   event HeartBeat(
     address indexed sender,
@@ -113,7 +117,8 @@ interface IFederation {
     uint256 fedEthBlock,
     string federatorVersion,
     string nodeRskInfo,
-    string nodeEthInfo
+    string nodeEthInfo,
+    uint256 chainId
   );
 
 }

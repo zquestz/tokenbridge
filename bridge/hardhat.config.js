@@ -11,7 +11,8 @@ require("@nomiclabs/hardhat-etherscan");
 const fs = require('fs');
 const chains = require('./hardhat/helper/chains');
 const MNEMONIC = fs.existsSync('./mnemonic.key') ? fs.readFileSync('./mnemonic.key', {encoding: 'utf8'}) : ''; // Your metamask's recovery words
-const INFURA_PROJECT_ID = fs.existsSync('./infura.key') ? fs.readFileSync('./infura.key', {encoding: 'utf8'}) : ''; // Your Infura project ID
+const ETHERESCAN_KEY = fs.existsSync('./etherscan.key') ? fs.readFileSync('./etherscan.key', {encoding: 'utf8'}) : ''; // Your etherscan API key
+const INFURA_PROJECT_ID = fs.existsSync('./infura.key') ? fs.readFileSync('./infura.key', {encoding: 'utf8'}) : ''; // Your Infura API Key after its registration
 
 const DEFAULT_DEPLOYER_ACCOUNT_INDEX = 0;
 
@@ -20,7 +21,7 @@ const DEFAULT_DEPLOYER_ACCOUNT_INDEX = 0;
  */
 module.exports = {
   solidity: {
-    version: '0.7.6',
+    version: '0.8.0',
     settings: {
       evmVersion: 'istanbul',
       optimizer: {
@@ -55,7 +56,7 @@ module.exports = {
   },
   namedAccounts: getNamedAccounts(),
   etherscan: {
-    apiKey: "YOUR_ETHERSCAN_API_KEY_HERE"
+    apiKey: ETHERESCAN_KEY
   },
   networks: {
     hardhat: {
@@ -147,7 +148,7 @@ module.exports = {
     //Ethereum
     kovan: {
       live: true,
-      url: 'https://kovan.infura.io/ws/v3/' + INFURA_PROJECT_ID,
+      url: 'https://kovan.infura.io/v3/' + INFURA_PROJECT_ID,
       network_id: chains.KOVAN_TEST_NET_CHAIN_ID,
       token_symbol: 'e',
       gas: 6700000,
@@ -226,7 +227,6 @@ function getMultiSigAddressesByChainId() {
   const multiSigAddressesByChainId = {};
   multiSigAddressesByChainId[chains.ETHEREUM_MAIN_NET_CHAIN_ID] = '0x040007b1804ad78a97f541bebed377dcb60e4138';
   multiSigAddressesByChainId[chains.RSK_MAIN_NET_CHAIN_ID] = '0x040007b1804ad78a97f541bebed377dcb60e4138';
-  // TODO: add two level mapping to allow rsk testnet to be used from multiple external testnet chains.
   multiSigAddressesByChainId[chains.RSK_TEST_NET_CHAIN_ID] = '0x88f6b2bc66f4c31a3669b9b1359524abf79cfc4a';
   multiSigAddressesByChainId[chains.KOVAN_TEST_NET_CHAIN_ID] = '0x040007b1804ad78a97f541bebed377dcb60e4138';
   multiSigAddressesByChainId[chains.BSC_TEST_NET_CHAIN_ID] = '0xE3848f411587C2C8658A0d6F649e7F1E403873a6';

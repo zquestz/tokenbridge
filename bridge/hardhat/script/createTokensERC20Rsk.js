@@ -12,51 +12,67 @@ async function main() {
     {
       name: 'BSC-Binance Token',
       symbol: 'WBNB',
-      typeId: 1,
-      originalTokenAddress: '0xae13d989dac2f0debff460ac112a837c89baa7cd',
+      typeId: 2,
+      originalTokenAddress: '0x50F2CD4e18428e1c8C73b7638d5DA32975663e16', // bsctestnet 0x0000
+      // originalTokenAddress: '0xd15cDD74DfF1A6A81Ca639B038839B126BC01FF9', // kovan 0x0000
+      // originalTokenAddress: '0xae13d989dac2f0debff460ac112a837c89baa7cd', // rsktestnetbsc mappedTokens 0x50F2CD4e18428e1c8C73b7638d5DA32975663e16
+      // originalTokenAddress: '0xd0A1E359811322d97991E03f863a0C30C2cF029C', // rsktestnet mappedTokens 0xd15cDD74DfF1A6A81Ca639B038839B126BC01FF9
+
+
+      // originalTokenAddress: '0xae13d989dac2f0debff460ac112a837c89baa7cd', // rsktestnetbsc mappedTokens 0x50F2CD4e18428e1c8C73b7638d5DA32975663e16
+      // originalTokenAddress: '0x50F2CD4e18428e1c8C73b7638d5DA32975663e16', // rsktestnetbsc originalTokens 0xae13d989daC2f0dEbFf460aC112a837C89BAa7cd
+      // originalTokenAddress: '0xae13d989dac2f0debff460ac112a837c89baa7cd', // rsktestnetbsc mappedTokens 0x50F2CD4e18428e1c8C73b7638d5DA32975663e16
+      // originalTokenAddress: '0xd15cDD74DfF1A6A81Ca639B038839B126BC01FF9', // rsktestnet originalTokens 0xd0A1E359811322d97991E03f863a0C30C2cF029C
+      // originalTokenAddress: '0xd0a1e359811322d97991e03f863a0c30c2cf029c', // rsktestnet mappedTokens 0xd15cDD74DfF1A6A81Ca639B038839B126BC01FF9
     },
-    {
-      name: 'BSC-BUSD Token',
-      symbol: 'BUSD',
-      typeId: 1,
-      originalTokenAddress: '0x110887fc420292dce51c08504cee377872d0db66',
-    },
-    {
-      name: 'BSC-DAI Token',
-      symbol: 'DAI',
-      typeId: 1,
-      originalTokenAddress: '0x13878644c0f2c9c5c8a85da43ebc3bb74bbc05a9',
-    },
-    {
-      name: 'BSC-ETH Token',
-      symbol: 'ETH',
-      typeId: 1,
-      originalTokenAddress: '0x8babbb98678facc7342735486c851abd7a0d17ca',
-    },
-    {
-      name: 'BSC-USDC Token',
-      symbol: 'USDC',
-      typeId: 1,
-      originalTokenAddress: '0x5d47b6e7edfc82e2ecd481b3db70d0f6600fdef8',
-    },
-    {
-      name: 'BSC-Tether Token',
-      symbol: 'USDT',
-      typeId: 1,
-      originalTokenAddress: '0x337610d27c682e347c9cd60bd4b3b107c9d34ddd',
-    },
-    {
-      name: 'BSC-BTC Token',
-      symbol: 'BTCB',
-      typeId: 1,
-      originalTokenAddress: '0x6ce8da28e2f864420840cf74474eff5fd80e65b8',
-    },
-    {
-      name: 'BSC-XRP Token',
-      symbol: 'XRP',
-      typeId: 1,
-      originalTokenAddress: '0xa83575490d7df4e2f47b7d38ef351a2722ca45b9',
-    },
+    // {
+    //   name: 'BSC-Binance Token',
+    //   symbol: 'WBNB',
+    //   typeId: 1,
+    //   originalTokenAddress: '0xae13d989dac2f0debff460ac112a837c89baa7cd',
+    // },
+    // {
+    //   name: 'BSC-BUSD Token',
+    //   symbol: 'BUSD',
+    //   typeId: 1,
+    //   originalTokenAddress: '0x110887fc420292dce51c08504cee377872d0db66',
+    // },
+    // {
+    //   name: 'BSC-DAI Token',
+    //   symbol: 'DAI',
+    //   typeId: 1,
+    //   originalTokenAddress: '0xec5dcb5dbf4b114c9d0f65bccab49ec54f6a0867',
+    // },
+    // {
+    //   name: 'BSC-ETH Token',
+    //   symbol: 'ETH',
+    //   typeId: 1,
+    //   originalTokenAddress: '0x8babbb98678facc7342735486c851abd7a0d17ca',
+    // },
+    // {
+    //   name: 'BSC-USDC Token',
+    //   symbol: 'USDC',
+    //   typeId: 1,
+    //   originalTokenAddress: '0x5d47b6e7edfc82e2ecd481b3db70d0f6600fdef8',
+    // },
+    // {
+    //   name: 'BSC-Tether Token',
+    //   symbol: 'USDT',
+    //   typeId: 1,
+    //   originalTokenAddress: '0x337610d27c682e347c9cd60bd4b3b107c9d34ddd',
+    // },
+    // {
+    //   name: 'BSC-BTC Token',
+    //   symbol: 'BTCB',
+    //   typeId: 1,
+    //   originalTokenAddress: '0x6ce8da28e2f864420840cf74474eff5fd80e65b8',
+    // },
+    // {
+    //   name: 'BSC-XRP Token',
+    //   symbol: 'XRP',
+    //   typeId: 1,
+    //   originalTokenAddress: '0xa83575490d7df4e2f47b7d38ef351a2722ca45b9',
+    // },
   ];
 
   const Bridge = await deployments.get('Bridge');
@@ -94,8 +110,10 @@ async function main() {
     });
     console.log("Transaction worked", receipt.transactionHash);
 
-    const tokenAddress = await bridge.methods.mappedTokens(token.originalTokenAddress).call({from: MultiSigWallet.address});
-    console.log("Token address for", token.name, ":", tokenAddress);
+    const tokenAddressMapped = await bridge.methods.mappedTokens(token.originalTokenAddress).call({from: MultiSigWallet.address});
+    console.log("Token address Mapped for", token.name, ":", tokenAddressMapped);
+    const tokenAddressOriginal = await bridge.methods.originalTokenAddressBySideTokenAddress(token.originalTokenAddress).call({from: MultiSigWallet.address});
+    console.log("Token address Original for", token.name, ":", tokenAddressOriginal);
   }
 
   console.log("finish");

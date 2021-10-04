@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 
 import "../../zeppelin/upgradable/Initializable.sol";
 
@@ -40,21 +40,13 @@ contract OpenSeaEIP712Base is Initializable {
                 keccak256(bytes(name)),
                 keccak256(bytes(ERC712_VERSION)),
                 address(this),
-                bytes32(getChainId())
+                bytes32(block.chainid)
             )
         );
     }
 
     function getDomainSeperator() public view returns (bytes32) {
         return domainSeperator;
-    }
-
-    function getChainId() public pure returns (uint256) {
-        uint256 id;
-        assembly {
-            id := chainid()
-        }
-        return id;
     }
 
     /**
